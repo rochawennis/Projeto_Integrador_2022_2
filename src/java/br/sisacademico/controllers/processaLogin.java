@@ -10,21 +10,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@WebServlet("/processaLogin")
 public class processaLogin extends HttpServlet {
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -35,12 +29,12 @@ public class processaLogin extends HttpServlet {
             senha = request.getParameter("senha");
 
             UsuarioDAO uDAO = new UsuarioDAO();
-            
+
             //criptografia da senha 
             MessageDigest m = MessageDigest.getInstance("SHA-256");
             m.update(senha.getBytes(), 0, senha.length());
 
-            Usuario u = uDAO.autentica(email, new BigInteger(1,m.digest()).toString(16));
+            Usuario u = uDAO.autentica(email, new BigInteger(1, m.digest()).toString(16));
 
             HttpSession session = request.getSession();
 
@@ -49,8 +43,9 @@ public class processaLogin extends HttpServlet {
                 session.setAttribute("idUsuario", u.getIdUsuario());
                 session.setAttribute("emailUsuario", u.getEmail());
                 session.setAttribute("tipoUsuario", u.getTipo());
+                session.setAttribute("IdTipoUsuario", u.getIdTipoUsuario());
                 response.sendRedirect("home.jsp");
-                
+
             } else {
                 session.setAttribute("autenticado", false);
                 response.sendRedirect("index.jsp");

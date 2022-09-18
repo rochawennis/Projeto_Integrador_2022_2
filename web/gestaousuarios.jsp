@@ -1,7 +1,6 @@
 <%@page import="br.sisacademico.model.Usuario"%>
 <%@page import="br.sisacademico.dao.UsuarioDAO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="br.sisacademico.util.TipoUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     if (!session.isNew() && session.getAttribute("autenticado") != null) {
@@ -12,8 +11,7 @@
         response.sendRedirect(request.getContextPath() + "/index.jsp?acesso=false");
     }
 
-    boolean acessoFull = (TipoUsuario) session.getAttribute("tipoUsuario")
-            == TipoUsuario.admin ? true : false;
+    boolean acessoFull = session.getAttribute("tipoUsuario").equals("admin") ? true : false;
 
     if (!acessoFull) {
         response.sendRedirect("404.jsp");
@@ -75,7 +73,7 @@
                         <tr>
                             <td><%=count++%></td>
                             <td><%=u.getEmail()%></td>
-                            <td><%= (u.getTipo() == TipoUsuario.admin) ? "Administrador" : "Usuário comum"%></td>
+                            <td><%=u.getTipo()%></td>
                             <td><a href="cadastros/usuario.jsp?idUsuario=<%=u.getIdUsuario()%>" class="btn btn btn-outline-info">Editar</a></td>
                             <%
                                 if (u.getIdUsuario() == idUSuarioLogado) {

@@ -1,7 +1,6 @@
 package br.sisacademico.dao;
 
 import br.sisacademico.model.Usuario;
-import br.sisacademico.util.TipoUsuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +15,7 @@ public class UsuarioDAO {
         try {
             Usuario u = null;
 
-            String query = "SELECT idUsuario, email, senha, idTipoUsuario FROM TB_USUARIO WHERE email = ? AND senha = ?";
+            String query = "SELECT idUsuario, email, senha, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\" WHERE email = ? AND senha = ?";
 
             PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);
 
@@ -30,8 +29,8 @@ public class UsuarioDAO {
                         resultados.getInt("idUsuario"),
                         email,
                         senha,
-                        resultados.getInt("idTipoUsuario") == 1
-                        ? TipoUsuario.admin : TipoUsuario.usuario);
+                        resultados.getString("tipo"),
+                        resultados.getInt("IdTipoUsuario"));
             }
 
             stm.getConnection().close();
@@ -49,7 +48,7 @@ public class UsuarioDAO {
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        String select = "SELECT idUsuario, email, \"tipo\" FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\"";
+        String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\"";
 
         ResultSet resultados = stm.executeQuery(select);
 
@@ -57,9 +56,8 @@ public class UsuarioDAO {
             Usuario u = new Usuario();
             u.setIdUsuario(resultados.getInt("idUsuario"));
             u.setEmail(resultados.getString("email"));
-            u.setTipo(resultados.getString("tipo").equalsIgnoreCase("admin")
-                    ? TipoUsuario.admin
-                    : TipoUsuario.usuario);
+            u.setTipo(resultados.getString("tipo"));
+            u.setIdTipoUsuario(resultados.getInt("IdTipoUsuario"));
 
             usuarios.add(u);
         }
@@ -77,17 +75,15 @@ public class UsuarioDAO {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
 
-            String select = "SELECT idUsuario, email, \"tipo\" FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON IDTIPOUSUARIO = \"idTipo\" WHERE idUsuario = " + idUsuario;
+            String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON IDTIPOUSUARIO = \"idTipo\" WHERE idUsuario = " + idUsuario;
 
             ResultSet resultados = stm.executeQuery(select);
 
             while (resultados.next()) {
                 u.setIdUsuario(resultados.getInt("idUsuario"));
                 u.setEmail(resultados.getString("email"));
-                u.setTipo(resultados.getString("tipo").equalsIgnoreCase("admin")
-                        ? TipoUsuario.admin
-                        : TipoUsuario.usuario);
-
+                u.setTipo(resultados.getString("tipo"));
+                u.setIdTipoUsuario(resultados.getInt("IdTipoUsuario"));
             }
 
             stm.getConnection().close();
@@ -119,7 +115,7 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean cadastrarUsuario(String email, String senha, TipoUsuario tipo) {
+    public boolean cadastrarUsuario(String email, String senha, int tipo) {
         try {
             String query = "INSERT INTO TB_USUARIO (email, senha, idTipoUsuario) VALUES(?, ?, ?)";
 
@@ -127,7 +123,7 @@ public class UsuarioDAO {
 
             stm.setString(1, email);
             stm.setString(2, senha);
-            stm.setInt(3, tipo == TipoUsuario.admin ? 1 : 2);
+            stm.setInt(3, tipo);
 
             stm.execute();
 
@@ -140,7 +136,7 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean atualizaUsuario(int idUsuario, String emailNovo, String senhaNova, TipoUsuario tipoNovo, boolean alteraSenha) {
+    public boolean atualizaUsuario(int idUsuario, String emailNovo, String senhaNova, int tipoNovo, boolean alteraSenha) {
         try {
             String query = "";
             PreparedStatement stm;
@@ -150,7 +146,7 @@ public class UsuarioDAO {
 
                 stm.setString(1, emailNovo);
                 stm.setString(2, senhaNova);
-                stm.setInt(3, tipoNovo == TipoUsuario.admin ? 1 : 2);
+                stm.setInt(3, tipoNovo);
                 stm.setInt(4, idUsuario);
 
             } else {
@@ -158,7 +154,7 @@ public class UsuarioDAO {
                 stm = ConnectionFactory.getConnection().prepareStatement(query);
 
                 stm.setString(1, emailNovo);
-                stm.setInt(2, tipoNovo == TipoUsuario.admin ? 1 : 2);
+                stm.setInt(2, tipoNovo);
                 stm.setInt(3, idUsuario);
 
             }

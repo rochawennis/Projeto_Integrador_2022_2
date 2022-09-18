@@ -1,6 +1,7 @@
+<%@page import="br.sisacademico.dao.TipoUsuarioDAO"%>
+<%@page import="br.sisacademico.model.TipoUsuario"%>
 <%@page import="br.sisacademico.model.Usuario"%>
 <%@page import="br.sisacademico.dao.UsuarioDAO"%>
-<%@page import="br.sisacademico.util.TipoUsuario"%>
 <%@page import="br.sisacademico.dao.AlunoDao"%>
 <%@page import="br.sisacademico.model.Aluno"%>
 <%@page import="br.sisacademico.model.Curso"%>
@@ -16,8 +17,11 @@
         response.sendRedirect(request.getContextPath() + "/index.jsp?acesso=false");
     }
 
-    boolean acessoFull = (TipoUsuario) session.getAttribute("tipoUsuario")
-            == TipoUsuario.admin ? true : false;
+    TipoUsuarioDAO tDao = new TipoUsuarioDAO();
+    ArrayList<TipoUsuario> listaTipos = tDao.getTodosTiposUsuarios();
+
+    boolean acessoFull = session.getAttribute("tipoUsuario").equals("admin") ? true : false;
+
     if (!acessoFull) {
         response.sendRedirect("../404.jsp");
     }
@@ -27,7 +31,7 @@
     String labelBotao = "Cadastrar";
     Usuario u = new Usuario();
     u.setEmail("");
-    u.setTipo(TipoUsuario.usuario);
+    u.setTipo("");
     String disabilitado = "";
     boolean campoSenhaHabilitado = true;
     if (request.getParameter("idUsuario") != null) {
@@ -78,8 +82,15 @@
                     <div class="form-group">
                         <label><b>Selecione o tipo de acesso:</b></label>
                         <select name="idTipoUsuario" class="form-control" <%=disabilitado%>>
-                            <option value="1" <%=(u.getTipo() == TipoUsuario.admin) ? "selected" : ""%> >Administrador</option>
-                            <option value="3" <%=(u.getTipo() == TipoUsuario.usuario) ? "selected" : ""%>>Usuário comum</option>
+                            <%
+                                for (TipoUsuario c : listaTipos) {
+                                    String opc = "";
+                                    if (c.getIdTipo() == u.getIdTipoUsuario())
+                                        opc = "selected";
+                            %>
+
+                            <option <%=opc%> value="<%=c.getIdTipo()%>"><%= c.getTipo()%></option>
+                            <% }%>
                         </select>
                     </div>
                     <br/>

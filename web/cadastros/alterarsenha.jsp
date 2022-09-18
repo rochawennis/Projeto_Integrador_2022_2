@@ -1,4 +1,5 @@
-<%@page import="br.sisacademico.util.TipoUsuario"%>
+<%@page import="br.sisacademico.model.Usuario"%>
+<%@page import="br.sisacademico.dao.UsuarioDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     if (!session.isNew() && session.getAttribute("autenticado") != null) {
@@ -8,21 +9,20 @@
     } else {
         response.sendRedirect(request.getContextPath() + "/index.jsp?acesso=false");
     }
-
     String acao = "alteraSenha";
+
 %>
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Alterar senha</title>
     </head>
     <body>
         <jsp:include page="../menu.jsp"/>
         <script src="../js/validaSenha.js"></script>
-        <%
-            if (request.getParameter("acao") != null) {
+        <%            if (request.getParameter("acao") != null) {
                 if (Boolean.parseBoolean(request.getParameter("acao"))) {
         %>
         <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Senha alterada!</div>
@@ -52,6 +52,7 @@
                         <label><b>Repita a nova senha:</b></label>
                         <input type="password" name="senhaNova_2" id="senha_confirm" class="form-control required"/>
                     </div>
+                    <input type="hidden" name="IdTipoUsuario" value="<%=session.getAttribute("IdTipoUsuario")%>"/>
                     <br/>
                     <div class="d-grid gap-2">
                         <input type="hidden" name="tipoAcao" value="<%=acao%>"/>

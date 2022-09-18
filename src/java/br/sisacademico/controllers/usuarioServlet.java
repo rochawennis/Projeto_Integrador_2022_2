@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.sisacademico.controllers;
 
 import br.sisacademico.dao.UsuarioDAO;
-import br.sisacademico.util.TipoUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
@@ -15,26 +9,17 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author thiagograzianitraue
- */
+@WebServlet("/usuarioServlet")
+
+
 public class usuarioServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -61,9 +46,8 @@ public class usuarioServlet extends HttpServlet {
                 m.update(senha.getBytes(), 0, senha.length());
 
                 int idTipo = Integer.parseInt(request.getParameter("idTipoUsuario"));
-                TipoUsuario tipo = idTipo == 1 ? TipoUsuario.admin : TipoUsuario.usuario;
                 UsuarioDAO uDAO = new UsuarioDAO();
-                if (uDAO.cadastrarUsuario(email, new BigInteger(1, m.digest()).toString(16), tipo)) {
+                if (uDAO.cadastrarUsuario(email, new BigInteger(1, m.digest()).toString(16), idTipo)) {
                     response.sendRedirect("gestaousuarios.jsp?acao=true");
                 } else {
                     response.sendRedirect("gestaousuarios.jsp?acao=false");
@@ -74,10 +58,7 @@ public class usuarioServlet extends HttpServlet {
                 String email = request.getParameter("email");
                 String senha = request.getParameter("senha");
                 String checkSenha = request.getParameter("alteraSenha");
-
                 int idTipoNovo = Integer.parseInt(request.getParameter("idTipoUsuario"));
-                TipoUsuario t = idTipoNovo == 1 ? TipoUsuario.admin : TipoUsuario.usuario;
-
                 int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
                 boolean alteraSenha = false;
                 if (checkSenha != null) {
@@ -93,7 +74,7 @@ public class usuarioServlet extends HttpServlet {
                 }
 
                 UsuarioDAO uDAO = new UsuarioDAO();
-                if (uDAO.atualizaUsuario(idUsuario, email, senhaCripto, t, alteraSenha)) {
+                if (uDAO.atualizaUsuario(idUsuario, email, senhaCripto, idTipoNovo, alteraSenha)) {
                     response.sendRedirect("gestaousuarios.jsp?acao=true");
                 } else {
                     response.sendRedirect("gestaousuarios.jsp?acao=false");
@@ -106,8 +87,9 @@ public class usuarioServlet extends HttpServlet {
                 //pega o e-mail da session:
                 HttpSession session = request.getSession();
                 String email = (String) session.getAttribute("emailUsuario");
-
                 String senhaDigitada = request.getParameter("senhaAntiga");
+                int tipo1 = (Integer) session.getAttribute("IdTipoUsuario");
+
                 MessageDigest m = MessageDigest.getInstance("SHA-256");
                 m.update(senhaDigitada.getBytes(), 0, senhaDigitada.length());
                 String senhaAntigaCripto = new BigInteger(1, m.digest()).toString(16);
@@ -121,8 +103,7 @@ public class usuarioServlet extends HttpServlet {
                     //a senha antiga digitada está ok. Pode começar o processo 
                     //de atualização da senha
                     int idUsuario = (Integer)session.getAttribute("idUsuario");
-                    TipoUsuario tipo = (TipoUsuario)session.getAttribute("tipoUsuario");
-                    if(uDAO.atualizaUsuario(idUsuario, email, senhaNovaCripto, tipo, true)){
+                    if(uDAO.atualizaUsuario(idUsuario, email, senhaNovaCripto, tipo1, true)){
                         response.sendRedirect("cadastros/alterarsenha.jsp?acao=true");
                     }else {
                         //precisa corrigir a memnsgem neste caso. Não é senhna anterior incorreta

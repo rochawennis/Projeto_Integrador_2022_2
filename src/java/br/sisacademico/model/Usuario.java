@@ -1,19 +1,19 @@
 package br.sisacademico.model;
 
-import br.sisacademico.util.TipoUsuario;
-
 public class Usuario {
 
     private int idUsuario;
     private String email;
     private String senha;
-    private TipoUsuario tipo;
+    private String tipo;
+    private int IdTipoUsuario;
 
-    public Usuario(int idUsuario, String email, String senha, TipoUsuario tipo) {
+    public Usuario(int idUsuario, String email, String senha, String tipo, int IdTipoUsuario) {
         this.idUsuario = idUsuario;
         this.email = email;
         this.senha = senha;
         this.tipo = tipo;
+        this.IdTipoUsuario = IdTipoUsuario;
     }
 
     public Usuario() {
@@ -43,11 +43,19 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public TipoUsuario getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoUsuario tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public int getIdTipoUsuario() {
+        return IdTipoUsuario;
+    }
+
+    public void setIdTipoUsuario(int IdTipoUsuario) {
+        this.IdTipoUsuario = IdTipoUsuario;
     }
 }
