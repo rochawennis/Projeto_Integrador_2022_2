@@ -1,10 +1,11 @@
+<%@page import="br.sisacademico.model.Usuario"%>
 <%@page import="br.sisacademico.model.Aluno"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     response.setContentType("text/html;charset=UTF-8");
     request.setCharacterEncoding("UTF-8");
-    
+
     ArrayList<Aluno> alunos = (ArrayList) session.getAttribute("listaDeAlunos");
 
     boolean listaVazia = alunos.size() == 0;
@@ -59,25 +60,28 @@
                     <th scope="col">Nome do Aluno</th>
                     <th scope="col">Curso</th>
                     <th scope="col">Tipo de Curso</th>
+                    <th scope="col">Cadastrado por</th>
                     <th scope="col" class="text-center">Editar</th>
                     <th scope="col" class="text-center">Excluir</th>
                     </thead>
                     <tbody>
                         <% for (Aluno a : alunos) {%>
+
                         <tr>
                             <td><%=a.getRa()%></td>
                             <td><%= a.getNomeAluno()%></td>
                             <td><%= a.getCurso().getNomeCurso()%></td>
                             <td><%= a.getCurso().getTipoCurso()%></td>
-                            
+                            <td><%= a.getUsuario().getNome()%></td>
+
                             <%
-                                String editParams = String.format("&idAluno=%s&nome=%s&ra=%s&idCurso=%s", 
+                                String editParams = String.format("&idAluno=%s&nome=%s&ra=%s&idCurso=%s",
                                         a.getIdAluno(), a.getNomeAluno(), a.getRa(), a.getCurso().getIdCurso());
                             %>
-                            
+
                             <td class="text-center"><a class="btn btn-outline-primary" href="<%=request.getContextPath()%>/AlunoController?acao=CARREGAMENTO<%=editParams%>">Editar</a></td>
 
-                            
+
                             <% if (mostraPainelFiltro) {%>
                             <td class="text-center"><a class="btn btn-outline-danger" id="deleteAluno" 
                                                        href="../AlunoController?acao=EXCLUSAO&idCurso=<%=a.getCurso().getIdCurso()%>&idAluno=<%=a.getIdAluno()%>">Excluir</a></td>
@@ -87,6 +91,7 @@
                                 <% } %>
                         </tr>
                         <% }%>
+
                     </tbody>
                 </table>
             </div>

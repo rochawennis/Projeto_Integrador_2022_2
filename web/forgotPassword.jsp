@@ -64,7 +64,7 @@
                             <li><span class="text-primary text-medium">1. </span>Digite seu e-mail abaixo.</li>
                             <li><span class="text-primary text-medium">2. </span>
                                 Nosso sistema enviará um código para seu e-mail.</li>
-                            <li><span class="text-primary text-medium">3. </span>Digite o OTP na próxima página.</li>
+                            <li><span class="text-primary text-medium">3. </span>Digite o código na próxima página.</li>
                         </ol>
                     </div>
                     <form class="card mt-4" action="forgotPassword" method="POST">

@@ -16,6 +16,18 @@
             .form-gap {
                 padding-top: 70px;
             }
+            body {
+                background-position: center;
+                background-color: #eee;
+                background-repeat: no-repeat;
+                background-size: cover;
+                color: #505050;
+                font-family: "Rubik", Helvetica, Arial, sans-serif;
+                font-size: 14px;
+                font-weight: normal;
+                line-height: 1.5;
+                text-transform: none
+            }
         </style>
     </head>
 

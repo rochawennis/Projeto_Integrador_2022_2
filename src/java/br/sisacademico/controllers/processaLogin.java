@@ -41,6 +41,7 @@ public class processaLogin extends HttpServlet {
             if (u != null) { //autenticou
                 session.setAttribute("autenticado", true);
                 session.setAttribute("idUsuario", u.getIdUsuario());
+                session.setAttribute("nome", u.getNome());
                 session.setAttribute("emailUsuario", u.getEmail());
                 session.setAttribute("tipoUsuario", u.getTipo());
                 session.setAttribute("IdTipoUsuario", u.getIdTipoUsuario());

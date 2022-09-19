@@ -15,7 +15,7 @@ public class UsuarioDAO {
         try {
             Usuario u = null;
 
-            String query = "SELECT idUsuario, email, senha, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\" WHERE email = ? AND senha = ?";
+            String query = "SELECT idUsuario, nome_usuario, email, senha, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\" WHERE email = ? AND senha = ?";
 
             PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);
 
@@ -30,7 +30,8 @@ public class UsuarioDAO {
                         email,
                         senha,
                         resultados.getString("tipo"),
-                        resultados.getInt("IdTipoUsuario"));
+                        resultados.getInt("IdTipoUsuario"),
+                        resultados.getString("nome_usuario"));
             }
 
             stm.getConnection().close();
@@ -48,7 +49,7 @@ public class UsuarioDAO {
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\"";
+        String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario, nome_usuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\"";
 
         ResultSet resultados = stm.executeQuery(select);
 
@@ -58,6 +59,7 @@ public class UsuarioDAO {
             u.setEmail(resultados.getString("email"));
             u.setTipo(resultados.getString("tipo"));
             u.setIdTipoUsuario(resultados.getInt("IdTipoUsuario"));
+            u.setNome(resultados.getString("nome_usuario"));
 
             usuarios.add(u);
         }
@@ -75,7 +77,7 @@ public class UsuarioDAO {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
 
-            String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON IDTIPOUSUARIO = \"idTipo\" WHERE idUsuario = " + idUsuario;
+            String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario, nome_usuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON IDTIPOUSUARIO = \"idTipo\" WHERE idUsuario = " + idUsuario;
 
             ResultSet resultados = stm.executeQuery(select);
 
@@ -84,6 +86,7 @@ public class UsuarioDAO {
                 u.setEmail(resultados.getString("email"));
                 u.setTipo(resultados.getString("tipo"));
                 u.setIdTipoUsuario(resultados.getInt("IdTipoUsuario"));
+                u.setNome(resultados.getString("nome_usuario"));
             }
 
             stm.getConnection().close();
@@ -115,15 +118,16 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean cadastrarUsuario(String email, String senha, int tipo) {
+    public boolean cadastrarUsuario(String email, String senha, int tipo, String nome) {
         try {
-            String query = "INSERT INTO TB_USUARIO (email, senha, idTipoUsuario) VALUES(?, ?, ?)";
+            String query = "INSERT INTO TB_USUARIO (email, senha, idTipoUsuario, nome_usuario) VALUES(?, ?, ?, ?)";
 
             PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);
 
             stm.setString(1, email);
             stm.setString(2, senha);
             stm.setInt(3, tipo);
+            stm.setString(4, nome);
 
             stm.execute();
 
@@ -136,26 +140,29 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean atualizaUsuario(int idUsuario, String emailNovo, String senhaNova, int tipoNovo, boolean alteraSenha) {
+    public boolean atualizaUsuario(int idUsuario, String nome ,String emailNovo, String senhaNova, int tipoNovo, boolean alteraSenha) {
         try {
             String query = "";
             PreparedStatement stm;
             if (alteraSenha) {
-                query = "UPDATE TB_USUARIO SET email = ?, senha = ?, idTipoUsuario = ? WHERE idUsuario = ?";
+                query = "UPDATE TB_USUARIO SET email = ?, senha = ?, idTipoUsuario = ?, nome_usuario = ? WHERE idUsuario = ?";
                 stm = ConnectionFactory.getConnection().prepareStatement(query);
 
                 stm.setString(1, emailNovo);
                 stm.setString(2, senhaNova);
                 stm.setInt(3, tipoNovo);
-                stm.setInt(4, idUsuario);
+                stm.setString(4, nome);
+                stm.setInt(5, idUsuario);
+
 
             } else {
-                query = "UPDATE TB_USUARIO SET email = ?, idTipoUsuario = ? WHERE idUsuario = ?";
+                query = "UPDATE TB_USUARIO SET email = ?, idTipoUsuario = ?, nome_usuario = ? WHERE idUsuario = ?";
                 stm = ConnectionFactory.getConnection().prepareStatement(query);
 
                 stm.setString(1, emailNovo);
                 stm.setInt(2, tipoNovo);
-                stm.setInt(3, idUsuario);
+                stm.setString(3, nome);
+                stm.setInt(4, idUsuario);
 
             }
 

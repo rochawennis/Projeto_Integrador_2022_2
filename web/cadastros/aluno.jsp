@@ -1,3 +1,5 @@
+<%@page import="br.sisacademico.model.Usuario"%>
+<%@page import="br.sisacademico.dao.UsuarioDAO"%>
 <%@page import="br.sisacademico.model.Curso"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,12 +15,15 @@
     String idAluno = "";
     int idCurso = -1;
     String disabled = "";
+    int idUsuario;
+    idUsuario = (Integer) session.getAttribute("idUsuario");
 
     if (request.getParameter("idAluno") != null) {
         nomeAluno = request.getParameter("nome");
         ra = request.getParameter("ra");
         idAluno = request.getParameter("idAluno");
         idCurso = Integer.parseInt(request.getParameter("idCurso"));
+        idUsuario = (Integer) session.getAttribute("idUsuario");
         acao = "EDICAO";
         txtBotao = "Atualizar este Aluno";
         disabled = "disabled";
@@ -63,7 +68,7 @@
                     <div class="mt-4">
                         <input type="submit" class="btn btn-primary btn-md w-100" value="<%=txtBotao%>">
                     </div>
-
+                    <input type="hidden" name="idUsuario" value="<%=idUsuario%>">
                     <input type="hidden" name="acao" value="<%=acao%>">
                     <input type="hidden" name="idAluno" value="<%=idAluno%>">
                 </form>

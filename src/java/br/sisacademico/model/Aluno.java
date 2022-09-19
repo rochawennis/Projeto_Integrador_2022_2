@@ -1,20 +1,26 @@
 package br.sisacademico.model;
 
 public class Aluno {
+
     private int idAluno;
     private int ra;
+    private int idUsuario;
     private String nomeAluno;
     private Curso curso;
+    private Usuario usuario;
 
-    public Aluno(int idAluno, int ra, String nomeAluno, Curso curso) {
+
+    public Aluno(int idAluno, int ra, String nomeAluno, Curso curso, int idUsuario) {
         this.idAluno = idAluno;
         this.ra = ra;
         this.nomeAluno = nomeAluno;
         this.curso = curso;
+        this.idUsuario = idUsuario;
     }
 
-    public Aluno() { }
-    
+    public Aluno() {
+    }
+
     public int getIdAluno() {
         return idAluno;
     }
@@ -46,4 +52,20 @@ public class Aluno {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 }

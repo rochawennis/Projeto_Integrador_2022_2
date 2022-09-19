@@ -7,13 +7,15 @@ public class Usuario {
     private String senha;
     private String tipo;
     private int IdTipoUsuario;
+    private String nome;
 
-    public Usuario(int idUsuario, String email, String senha, String tipo, int IdTipoUsuario) {
+    public Usuario(int idUsuario, String email, String senha, String tipo, int IdTipoUsuario, String nome) {
         this.idUsuario = idUsuario;
         this.email = email;
         this.senha = senha;
         this.tipo = tipo;
         this.IdTipoUsuario = IdTipoUsuario;
+        this.nome = nome;
     }
 
     public Usuario() {
@@ -58,4 +60,13 @@ public class Usuario {
     public void setIdTipoUsuario(int IdTipoUsuario) {
         this.IdTipoUsuario = IdTipoUsuario;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
 }

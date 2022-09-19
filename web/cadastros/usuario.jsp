@@ -30,6 +30,7 @@
     String tipoAcao = "insere";
     String labelBotao = "Cadastrar";
     Usuario u = new Usuario();
+    u.setNome("");
     u.setEmail("");
     u.setTipo("");
     String disabilitado = "";
@@ -61,6 +62,13 @@
         <div class="container mt-5">
             <div style="width: 50%; margin: 0 auto !important;">
                 <form method="post" action="../usuarioServlet">
+
+                    <div class="form-group" style="padding-top: 25px;">
+                        <label><b>Nome:</b></label>
+                        <input type="text" name="nome" class="form-control"
+                               placeholder="Nome"
+                               value="<%=u.getNome()%>"/>
+                    </div>
                     <div class="form-group" style="padding-top: 25px;">
                         <label><b>E-mail:</b></label>
                         <input type="email" name="email" class="form-control"

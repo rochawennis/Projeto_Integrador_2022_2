@@ -83,6 +83,7 @@ public class AlunoController extends HttpServlet {
                     a.setRa(Integer.parseInt(request.getParameter("raAluno")));
                     a.setNomeAluno(request.getParameter("nomeAluno"));
                     a.setCurso(new Curso(Integer.parseInt(request.getParameter("idCurso")), null, null));
+                    a.setIdUsuario(Integer.parseInt(request.getParameter("idUsuario")));
                     if (aDAO.cadastraAluno(a)) {
                         response.sendRedirect("./relatorios/loader.jsp?pagina=aluno");
                     }

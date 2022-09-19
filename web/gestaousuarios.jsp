@@ -62,6 +62,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Nome</th>
                             <th scope="col">E-mail</th>
                             <th scope="col">Tipo de Usuário</th>
                             <th scope="col">Editar</th>
@@ -72,6 +73,7 @@
                         <% for (Usuario u : usuarios) {%>
                         <tr>
                             <td><%=count++%></td>
+                            <td><%=u.getNome()%></td>
                             <td><%=u.getEmail()%></td>
                             <td><%=u.getTipo()%></td>
                             <td><a href="cadastros/usuario.jsp?idUsuario=<%=u.getIdUsuario()%>" class="btn btn btn-outline-info">Editar</a></td>
@@ -97,9 +99,9 @@
                         <a href="cadastros/usuario.jsp" class="btn btn-success">Novo usuário</a>
                         <a href="<%=request.getContextPath()%>/home.jsp" class="btn btn-danger">Voltar</a>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>
