@@ -1,6 +1,7 @@
 <html>
     <head>
-
+        <link rel="icon" href="img/icon.ico" type="image/x-icon" />
+        <title>Reset de Senha</title>
         <link
             href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
             rel="stylesheet" id="bootstrap-css">

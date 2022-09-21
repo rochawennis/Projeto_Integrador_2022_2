@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,11 +28,12 @@ public class AlunoController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
 
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             AcaoDao act = AcaoDao.valueOf(request.getParameter("acao"));
             AlunoDao aDAO = new AlunoDao();
             CursoDao cDAO = new CursoDao();
             HttpSession session = request.getSession();
+            RequestDispatcher dispatcher = null;
             Aluno a;
             int idAluno;
 
@@ -84,9 +86,14 @@ public class AlunoController extends HttpServlet {
                     a.setNomeAluno(request.getParameter("nomeAluno"));
                     a.setCurso(new Curso(Integer.parseInt(request.getParameter("idCurso")), null, null));
                     a.setIdUsuario(Integer.parseInt(request.getParameter("idUsuario")));
-                    if (aDAO.cadastraAluno(a)) {
-                        response.sendRedirect("./relatorios/loader.jsp?pagina=aluno");
+                    if (aDAO.verificaAluno(a.getNomeAluno()) == false) {
+                        if (aDAO.cadastraAluno(a)) {
+                            //response.sendRedirect("./relatorios/loader.jsp?pagina=aluno");
+                            response.sendRedirect("./cadastros/aluno.jsp?ok");
+                            break;
+                        }
                     }
+                    response.sendRedirect("./cadastros/aluno.jsp?erro");
                     break;
                 case EDICAO:
                     a = new Aluno();

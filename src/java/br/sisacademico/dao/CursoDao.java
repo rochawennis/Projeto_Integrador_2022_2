@@ -98,6 +98,27 @@ public class CursoDao {
         }
     }
 
+    public boolean verificaCurso(String nomeCurso) {
+        try {
+            String query = "select NOME_CURSO FROM TB_CURSO WHERE NOME_CURSO = ?";
+            PreparedStatement stm = ConnectionFactory.getConnection()
+                    .prepareStatement(query);
+
+            stm.setString(1, nomeCurso);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                if (nomeCurso.equals(rs.getString("NOME_CURSO"))) {
+                    stm.getConnection().close();
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            return false;
+        }
+        return false;
+
+    }
+
     public boolean cadastraCurso(Curso curso) {
         try {
             String query

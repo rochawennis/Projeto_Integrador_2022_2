@@ -25,6 +25,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="icon" href="img/icon.ico" type="image/x-icon" />
     </head>
     <body>
         <jsp:include page="menu.jsp"/>
@@ -32,11 +33,11 @@
         <%            if (request.getParameter("acao") != null) {
                 if (Boolean.parseBoolean(request.getParameter("acao"))) {
         %>
-        <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Ação realizada com sucesso!</div>
+        <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Cadastro realizado com sucesso!</div>
         <%
         } else {
         %>
-        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">Erro ao realizar a operação!</div>
+        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">Usuário já possui cadastro! Cadastro não realizado!</div>
         <%
                 }
             }

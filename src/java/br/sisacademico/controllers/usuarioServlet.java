@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/usuarioServlet")
 
-
 public class usuarioServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -38,6 +37,8 @@ public class usuarioServlet extends HttpServlet {
             }
 
             if (tipoAcao.equals("insere")) {
+                UsuarioDAO uDAO = new UsuarioDAO();
+
                 String email = request.getParameter("email");
                 String senha = request.getParameter("senha");
                 String nome = request.getParameter("nome");
@@ -47,12 +48,14 @@ public class usuarioServlet extends HttpServlet {
                 m.update(senha.getBytes(), 0, senha.length());
 
                 int idTipo = Integer.parseInt(request.getParameter("idTipoUsuario"));
-                UsuarioDAO uDAO = new UsuarioDAO();
-                if (uDAO.cadastrarUsuario(email, new BigInteger(1, m.digest()).toString(16), idTipo, nome)) {
-                    response.sendRedirect("gestaousuarios.jsp?acao=true");
-                } else {
-                    response.sendRedirect("gestaousuarios.jsp?acao=false");
+                if (uDAO.verificaUsuario(email) == false) {
+                    if (uDAO.cadastrarUsuario(email, new BigInteger(1, m.digest()).toString(16), idTipo, nome)) {
+                        response.sendRedirect("gestaousuarios.jsp?acao=true");
+                    } else {
+                        response.sendRedirect("gestaousuarios.jsp?acao=false");
+                    }
                 }
+                response.sendRedirect("gestaousuarios.jsp?acao=false");
             }
 
             if (tipoAcao.equals("edicao")) {
@@ -76,11 +79,14 @@ public class usuarioServlet extends HttpServlet {
                 }
 
                 UsuarioDAO uDAO = new UsuarioDAO();
-                if (uDAO.atualizaUsuario(idUsuario, nome, email, senhaCripto, idTipoNovo, alteraSenha)) {
-                    response.sendRedirect("gestaousuarios.jsp?acao=true");
-                } else {
-                    response.sendRedirect("gestaousuarios.jsp?acao=false");
+                if (uDAO.verificaUsuario(email) == false) {
+                    if (uDAO.atualizaUsuario(idUsuario, nome, email, senhaCripto, idTipoNovo, alteraSenha)) {
+                        response.sendRedirect("gestaousuarios.jsp?acao=true");
+                    } else {
+                        response.sendRedirect("gestaousuarios.jsp?acao=false");
+                    }
                 }
+                response.sendRedirect("gestaousuarios.jsp?acao=false");
             }
 
             if (tipoAcao.equals("alteraSenha")) {
@@ -96,7 +102,7 @@ public class usuarioServlet extends HttpServlet {
                 MessageDigest m = MessageDigest.getInstance("SHA-256");
                 m.update(senhaDigitada.getBytes(), 0, senhaDigitada.length());
                 String senhaAntigaCripto = new BigInteger(1, m.digest()).toString(16);
-                
+
                 String senhaNova = request.getParameter("senhaNova_1");
                 m.update(senhaNova.getBytes(), 0, senhaNova.length());
                 String senhaNovaCripto = new BigInteger(1, m.digest()).toString(16);
@@ -105,14 +111,14 @@ public class usuarioServlet extends HttpServlet {
                 if (uDAO.autentica(email, senhaAntigaCripto) != null) {
                     //a senha antiga digitada está ok. Pode começar o processo 
                     //de atualização da senha
-                    int idUsuario = (Integer)session.getAttribute("idUsuario");
-                    if(uDAO.atualizaUsuario(idUsuario,nome,email, senhaNovaCripto, tipo1, true)){
+                    int idUsuario = (Integer) session.getAttribute("idUsuario");
+                    if (uDAO.atualizaUsuario(idUsuario, nome, email, senhaNovaCripto, tipo1, true)) {
                         response.sendRedirect("cadastros/alterarsenha.jsp?acao=true");
-                    }else {
+                    } else {
                         //precisa corrigir a memnsgem neste caso. Não é senhna anterior incorreta
                         response.sendRedirect("cadastros/alterarsenha.jsp?acao=false");
                     }
-                    
+
                 } else {
                     response.sendRedirect("cadastros/alterarsenha.jsp?acao=false");
                 }

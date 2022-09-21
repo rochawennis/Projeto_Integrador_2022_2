@@ -10,6 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="icon" href="../img/icon.ico" type="image/x-icon" />
     </head>
     <body>
         <jsp:include page="../menu.jsp"></jsp:include>
@@ -53,10 +54,10 @@
                             <% } %>
 
                             <%
-                                String editParams = String.format("?idCurso=%s&curso=%s&tipo=%s", 
+                                String editParams = String.format("?idCurso=%s&curso=%s&tipo=%s",
                                         c.getKey().getIdCurso(), c.getKey().getNomeCurso(), c.getKey().getTipoCurso());
                             %>
-                            
+
                             <td class="text-center"><a class="btn btn-outline-primary" href="../cadastros/curso.jsp<%=editParams%>">Editar</a></td>
 
                             <% if (c.getValue() > 0) { %>

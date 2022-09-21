@@ -86,10 +86,31 @@ public class AlunoDao {
         }
     }
 
+    public boolean verificaAluno(String nomeAluno) {
+        try {
+            String query = "select NOME FROM TB_ALUNO WHERE NOME = ?";
+            PreparedStatement stm = ConnectionFactory.getConnection()
+                    .prepareStatement(query);
+
+            stm.setString(1, nomeAluno);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                if (nomeAluno.equals(rs.getString("NOME"))) {
+                    stm.getConnection().close();
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            return false;
+        }
+        return false;
+
+    }
+
     public boolean cadastraAluno(Aluno aluno) {
         try {
             String query
-                    = "INSERT INTO TB_ALUNO(RA, nome_usuario, ID_CURSO, IDUSUARIO) VALUES(?,?,?,?)";
+                    = "INSERT INTO TB_ALUNO(RA, NOME, ID_CURSO, IDUSUARIO) VALUES(?,?,?,?)";
 
             PreparedStatement stm = ConnectionFactory.getConnection()
                     .prepareStatement(query);

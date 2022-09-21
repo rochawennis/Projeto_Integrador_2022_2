@@ -90,13 +90,34 @@ public class UsuarioDAO {
             }
 
             stm.getConnection().close();
-
             return u;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public boolean verificaUsuario(String email) {
+        try {
+            String query = "select email FROM TB_USUARIO WHERE email = ?";
+            PreparedStatement stm = ConnectionFactory.getConnection()
+                    .prepareStatement(query);
+
+            stm.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                if (email.equals(rs.getString("email"))) {
+                    stm.getConnection().close();
+                    return true;
+                }
+            }
+            stm.getConnection().close();
+
+        } catch (SQLException ex) {
+            return false;
+        }
+
+        return false;
     }
 
     public boolean deletarUsuario(int idUsuario) {
@@ -140,7 +161,7 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean atualizaUsuario(int idUsuario, String nome ,String emailNovo, String senhaNova, int tipoNovo, boolean alteraSenha) {
+    public boolean atualizaUsuario(int idUsuario, String nome, String emailNovo, String senhaNova, int tipoNovo, boolean alteraSenha) {
         try {
             String query = "";
             PreparedStatement stm;
@@ -153,8 +174,6 @@ public class UsuarioDAO {
                 stm.setInt(3, tipoNovo);
                 stm.setString(4, nome);
                 stm.setInt(5, idUsuario);
-
-
             } else {
                 query = "UPDATE TB_USUARIO SET email = ?, idTipoUsuario = ?, nome_usuario = ? WHERE idUsuario = ?";
                 stm = ConnectionFactory.getConnection().prepareStatement(query);
@@ -163,13 +182,9 @@ public class UsuarioDAO {
                 stm.setInt(2, tipoNovo);
                 stm.setString(3, nome);
                 stm.setInt(4, idUsuario);
-
             }
-
             stm.execute();
-
             stm.getConnection().close();
-
             return true;
 
         } catch (Exception e) {

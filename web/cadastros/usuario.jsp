@@ -2,11 +2,7 @@
 <%@page import="br.sisacademico.model.TipoUsuario"%>
 <%@page import="br.sisacademico.model.Usuario"%>
 <%@page import="br.sisacademico.dao.UsuarioDAO"%>
-<%@page import="br.sisacademico.dao.AlunoDao"%>
-<%@page import="br.sisacademico.model.Aluno"%>
-<%@page import="br.sisacademico.model.Curso"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="br.sisacademico.dao.CursoDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     if (!session.isNew() && session.getAttribute("autenticado") != null) {
@@ -50,65 +46,92 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="icon" href="../img/icon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
         <script language="javascript">
             function enableDisable(bEnable, textBoxID)
             {
                 document.getElementById(textBoxID).disabled = !bEnable;
             }
         </script>
+        <script language="javascript">
+            function formatar(mascara, documento) {
+                var i = documento.value.length;
+                var saida = mascara.substring(0, 1);
+                var texto = mascara.substring(i);
+                if (texto.substring(0, 1) !== saida) {
+                    documento.value += texto.substring(0, 1);
+                }
+            }
+        </script>
     </head>
     <body>
         <jsp:include page="../menu.jsp"/>
-        <div class="container mt-5">
-            <div style="width: 50%; margin: 0 auto !important;">
+        <div>
+            <div style="width: 30%; margin: 0 auto ;">
                 <form method="post" action="../usuarioServlet">
-
                     <div class="form-group" style="padding-top: 25px;">
                         <label><b>Nome:</b></label>
-                        <input type="text" name="nome" class="form-control"
-                               placeholder="Nome"
-                               value="<%=u.getNome()%>"/>
-                    </div>
-                    <div class="form-group" style="padding-top: 25px;">
+                        <div class="input-group form-group">
+                            <div class="input-group-text">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <input type="text" name="nome" class="form-control"
+                                   placeholder="Nome"
+                                   value="<%=u.getNome()%>"/>
+                        </div>
                         <label><b>E-mail:</b></label>
-                        <input type="email" name="email" class="form-control"
-                               placeholder="E-mail do usuário"
-                               value="<%=u.getEmail()%>"/>
-                    </div>
-
-                    <div class="form-group" style="padding-top: 25px;">
+                        <div class="input-group form-group">
+                            <div class="input-group-text">
+                                <i class="bi bi-envelope-fill"></i>
+                            </div>
+                            <input type="email" name="email" class="form-control"
+                                   placeholder="E-mail do usuário"
+                                   value="<%=u.getEmail()%>"/>
+                        </div>
+                        <label><b>CPF:</b></label>
+                        <div class="input-group form-group">
+                            <div class="input-group-text">
+                                <i class="bi bi-postcard-fill"></i>
+                            </div>
+                            <input type="text" id="Cpf" size="12" maxlength="14" placeholder="Ex: 000.000.000-00"  class="form-control"  OnKeyPress="formatar('###.###.###-##', this)"/>
+                        </div>
                         <label><b>Senha:</b></label>
-                        <input type="password" <%= (campoSenhaHabilitado == false) ? "disabled" : ""%> name="senha" id="textBox" class="form-control"
-                               value=""/>
+                        <div class="input-group form-group">
+                            <div class="input-group-text">
+                                <i class="bi bi-lock-fill"></i>
+                            </div>
+                            <input type="password" <%= (campoSenhaHabilitado == false) ? "disabled" : ""%> name="senha" id="textBox" class="form-control"
+                                   value=""/> 
+                        </div>
                         <% if (!campoSenhaHabilitado) { %>
                         <input type="checkbox" name="alteraSenha" id="checkBox" onclick="enableDisable(this.checked, 'textBox')">
                         Alterar a senha do usuário
                         </input>
                         <% }%>
-                    </div>
-                    <br/>
-                    <div class="form-group">
-                        <label><b>Selecione o tipo de acesso:</b></label>
-                        <select name="idTipoUsuario" class="form-control" <%=disabilitado%>>
-                            <%
-                                for (TipoUsuario c : listaTipos) {
-                                    String opc = "";
-                                    if (c.getIdTipo() == u.getIdTipoUsuario())
-                                        opc = "selected";
-                            %>
+                        <br/>
+                        <div class="form-group">
+                            <label><b>Selecione o tipo de acesso:</b></label>
+                            <select name="idTipoUsuario" class="form-control" <%=disabilitado%>>
+                                <%
+                                    for (TipoUsuario c : listaTipos) {
+                                        String opc = "";
+                                        if (c.getIdTipo() == u.getIdTipoUsuario())
+                                            opc = "selected";
+                                %>
 
-                            <option <%=opc%> value="<%=c.getIdTipo()%>"><%= c.getTipo()%></option>
-                            <% }%>
-                        </select>
-                    </div>
-                    <br/>
-                    <div class="d-grid gap-2">              
-                        <input type="hidden" name="tipoAcao" value="<%=tipoAcao%>"/>
-                        <input type="hidden" name="idUsuario" value="<%=u.getIdUsuario()%>"/>
-                        <input type="submit" class="btn btn-primary btn-block" 
-                               value="<%=labelBotao%>"/> 
-                        <a href="<%=request.getContextPath()%>/gestaousuarios.jsp" class="btn btn-danger">Voltar</a>
-
+                                <option <%=opc%> value="<%=c.getIdTipo()%>"><%= c.getTipo()%></option>
+                                <% }%>
+                            </select>
+                        </div>
+                        <br/>
+                        <div class="d-grid gap-2">              
+                            <input type="hidden" name="tipoAcao" value="<%=tipoAcao%>"/>
+                            <input type="hidden" name="idUsuario" value="<%=u.getIdUsuario()%>"/>
+                            <input type="submit" class="btn btn-primary btn-block" 
+                                   value="<%=labelBotao%>"/> 
+                            <a href="<%=request.getContextPath()%>/gestaousuarios.jsp" class="btn btn-danger">Voltar</a>
+                        </div>
                     </div>
                 </form>
             </div>

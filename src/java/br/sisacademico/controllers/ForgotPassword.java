@@ -1,5 +1,6 @@
 package br.sisacademico.controllers;
 
+import br.sisacademico.dao.UsuarioDAO;
 import java.io.IOException;
 import java.security.Security;
 import java.util.Properties;
@@ -30,9 +31,15 @@ public class ForgotPassword extends HttpServlet {
         String email = request.getParameter("email");
         RequestDispatcher dispatcher = null;
         int otpvalue = 0;
+        UsuarioDAO u = new UsuarioDAO();
         HttpSession mySession = request.getSession();
 
         if (email != null || !email.equals("")) {
+            if (u.verificaUsuario(email) == false) {
+                request.setAttribute("erro", "erro");
+                dispatcher = request.getRequestDispatcher("forgotPassword.jsp");
+                dispatcher.forward(request, response);
+            }
             // sending otp
             Random rand = new Random();
             otpvalue = rand.nextInt(1255650);

@@ -42,7 +42,9 @@
                                 <div class="form-group">
                                     <label>E-mail<span class="text-danger">*</span></label>
                                     <div class="input-group">
-                                        <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
+                                        <div class="input-group-text"><i class="bi bi-person-fill">
+                                            </i>
+                                        </div>
                                         <input type="email" name="email" class="form-control" placeholder="E-mail">
                                     </div>
                                 </div>
@@ -59,30 +61,30 @@
                                         if (!(Boolean) session.getAttribute("autenticado")) {
                                             session.invalidate();
                                 %>
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>Usuário ou senha inválidos!</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Usuário ou senha inválidos!</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
                                 <%                                        }
                                     }
                                 %> 
                                 <%
                                     if (request.getAttribute("status") == "resetSuccess") {
                                 %>
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>Senha alterada com sucesso!</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Senha alterada com sucesso!</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
                                 <%
                                     }
                                 %> 
                                 <%
                                     if (request.getAttribute("status") == "resetFailed") {
                                 %>
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>Usuário não possui cadastro!</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Usuário não possui cadastro!</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
                                 <%
                                     }
                                 %>                                 
