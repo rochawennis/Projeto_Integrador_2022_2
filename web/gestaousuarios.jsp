@@ -24,7 +24,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Cadastros de Usuários</title>
         <link rel="icon" href="img/icon.ico" type="image/x-icon" />
     </head>
     <body>
