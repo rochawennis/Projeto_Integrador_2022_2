@@ -25,12 +25,11 @@
 + Prof. Gabriel Nunes Galan
 + Prof. Adriano Michelotti Schroeder
 
-# SisAcadêmico
-
-
 <p align="center">
 
-  <h1 align="center">Home</h1>
+# SisAcadêmico
+
+<h1 align="center">Home</h1>
 <img src="https://user-images.githubusercontent.com/47645762/172303932-8a58e93f-8f98-4e2b-8fc0-80026820e7dd.jpeg" width="100%"></img> 
 
 <h1 align="center">Cursos Cadastrados</h1>
