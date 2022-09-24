@@ -74,4 +74,8 @@
 <h1 align="center">Edição/Criação de Usuário</h1>
 <img src="https://user-images.githubusercontent.com/47645762/192078579-6e57805e-359d-4639-b57a-0a77dc2c114f.png" width="100%"></img>
 
+<h1 align="center">Reset de Senha</h1>
+<img src="https://user-images.githubusercontent.com/47645762/192078672-2555b537-fe2a-4002-94f2-7bf33172236f.png" width="100%"></img>
+
+
 
