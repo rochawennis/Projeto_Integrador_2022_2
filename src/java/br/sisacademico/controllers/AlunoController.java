@@ -100,13 +100,17 @@ public class AlunoController extends HttpServlet {
                     a.setIdAluno(Integer.parseInt(request.getParameter("idAluno")));
                     a.setNomeAluno(request.getParameter("nomeAluno"));
                     a.setCurso(new Curso(Integer.parseInt(request.getParameter("idCurso")), null, null));
-                    if (aDAO.atualizaAluno(a)) {
-                        response.sendRedirect("./relatorios/loader.jsp?pagina=aluno");
+                    if (aDAO.verificaAluno(a.getNomeAluno()) == false) {
+                        if (aDAO.atualizaAluno(a)) {
+                            response.sendRedirect("./relatorios/loader.jsp?pagina=aluno");
+                        }
                     }
+                    response.sendRedirect("./cadastros/aluno.jsp?erro");
                     break;
                 default:
                     break;
             }
+
         }
     }
 

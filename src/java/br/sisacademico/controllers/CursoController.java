@@ -65,16 +65,13 @@ public class CursoController extends HttpServlet {
                     nomeCurso = request.getParameter("nomeCurso");
                     tipoCurso = request.getParameter("tipoCurso");
                     idCurso = Integer.parseInt(request.getParameter("idCurso"));
-
-                    if (cDAO.atualizaCurso(idCurso, nomeCurso, tipoCurso)) {
-                        response.sendRedirect("./relatorios/loader.jsp?pagina=curso");
+                    if (cDAO.verificaCurso(nomeCurso) == false) {
+                        if (cDAO.atualizaCurso(idCurso, nomeCurso, tipoCurso)) {
+                            response.sendRedirect("./relatorios/loader.jsp?pagina=curso");
+                        }
                     }
-
-                    //Outra forma de chamar a atualização
-                    //Curso curso = new Curso(idCurso, nomeCurso, tipoCurso);
-                    //if(cDAO.atualizaCurso(curso)) {
-                    //  response.sendRedirect("./relatorios/loader.jsp?pagina=curso");
-                    //}
+                    request.setAttribute("erro", false);
+                    response.sendRedirect("./cadastros/curso.jsp?erro");
                     break;
                 default:
                     break;
