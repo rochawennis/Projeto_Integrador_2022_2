@@ -1,4 +1,29 @@
-# SisAcademico - Turma 42 - noite
+# PROJETO PRÁTICO DE SISTEMAS APLICADOS A NEGÓCIOS
+
+* Universidade Nove de Julho
+
+## Recursos Usados:
+
++ Apache NetBeans IDE 12.6 - Java: 1.8.0_111; Java HotSpot(TM) 64-Bit Server VM 25.111-b14
++ GlassFish Server 4.1.1
+
+
+## Integrantes
+ 
+* Wennis Rocha de Andrade
+* Douglas Kurtz Ferreira Junior 
+* Rafael Duarte Morales
+* Cauê Vinícius dos Santos
+* João Vitor Gabriel Leite 
+* Vinicius Rolo Fonseca
+* Enzo Rodrigues da Costa
+* Pedro Henrique Ferreira de Souza
+
+
+## Professores
+
+Prof. Gabriel Nunes Galan
+Prof. Adriano Michelotti Schroeder
 
 <p align="center">
 
