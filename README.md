@@ -29,6 +29,12 @@
 
 <h1 align="center">SisAcadêmico</h1>
 
+<h1 align="center">Index</h1>
+<img src="https://user-images.githubusercontent.com/47645762/192078520-8f0a6195-0ea1-4452-9d7f-9cd89bbbc4e1.png" width="100%"></img> 
+
+<h1 align="center">Reset de Senha</h1>
+<img src="https://user-images.githubusercontent.com/47645762/192078388-6d539d5b-3b31-4116-848e-f9d7b3bc86c9.png" width="100%"></img> 
+
 <h1 align="center">Home</h1>
 <img src="https://user-images.githubusercontent.com/47645762/172303932-8a58e93f-8f98-4e2b-8fc0-80026820e7dd.jpeg" width="100%"></img> 
 
@@ -58,4 +64,14 @@
 
 <h1 align="center">Filtro por curso do Aluno</h1>
 <img src="https://user-images.githubusercontent.com/47645762/172304822-ce64e3ea-b48e-403e-8f45-1cbebece5432.jpeg" width="100%"></img> 
+
+<h1 align="center">Gestão de Usuários</h1>
+<img src="https://user-images.githubusercontent.com/47645762/192078555-bf283f6a-11f7-4157-95a9-fb5dbb09f326.png" width="100%"></img>
+
+<h1 align="center">Criação de Usuário</h1>
+<img src="https://user-images.githubusercontent.com/47645762/192078601-75a09142-f155-43ad-a277-45b6e1bf141e.png" width="100%"></img>
+
+<h1 align="center">Edição/Criação de Usuário</h1>
+<img src="https://user-images.githubusercontent.com/47645762/192078579-6e57805e-359d-4639-b57a-0a77dc2c114f.png" width="100%"></img>
+
 
