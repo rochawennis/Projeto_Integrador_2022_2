@@ -22,8 +22,8 @@
 
 ## Professores
 
-Prof. Gabriel Nunes Galan
-Prof. Adriano Michelotti Schroeder
++ Prof. Gabriel Nunes Galan
++ Prof. Adriano Michelotti Schroeder
 
 <p align="center">
 
