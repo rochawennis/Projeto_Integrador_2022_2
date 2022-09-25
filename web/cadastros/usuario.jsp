@@ -39,7 +39,7 @@
         labelBotao = "Confirmar alterações";
         campoSenhaHabilitado = false;
         int idUsuarioLogado = (Integer) session.getAttribute("idUsuario");
-        disabilitado = (idUsuario == idUsuarioLogado) ? "disabled" : "";
+        disabilitado = (idUsuario == idUsuarioLogado) ? "pointer-events: none;" : "";
     }
 %>
 <!DOCTYPE html>
@@ -76,7 +76,7 @@
                             <div class="input-group-text">
                                 <i class="bi bi-person-circle"></i>
                             </div>
-                            <input type="text" name="nome" class="form-control"
+                            <input required type="text" name="nome" class="form-control"
                                    placeholder="Nome"
                                    value="<%=u.getNome()%>"/>
                         </div>
@@ -85,7 +85,7 @@
                             <div class="input-group-text">
                                 <i class="bi bi-envelope-fill"></i>
                             </div>
-                            <input type="email" name="email" class="form-control"
+                            <input required type="email" name="email" class="form-control"
                                    placeholder="E-mail do usuário"
                                    value="<%=u.getEmail()%>"/>
                         </div>
@@ -94,14 +94,14 @@
                             <div class="input-group-text">
                                 <i class="bi bi-postcard-fill"></i>
                             </div>
-                            <input type="text" id="Cpf" size="12" maxlength="14" placeholder="Ex: 000.000.000-00"  class="form-control"  OnKeyPress="formatar('###.###.###-##', this)"/>
+                            <input required type="text" id="Cpf" size="12" maxlength="14" placeholder="Ex: 000.000.000-00"  class="form-control"  OnKeyPress="formatar('###.###.###-##', this)"/>
                         </div>
                         <label><b>Senha:</b></label>
                         <div class="input-group form-group">
                             <div class="input-group-text">
                                 <i class="bi bi-lock-fill"></i>
                             </div>
-                            <input type="password" <%= (campoSenhaHabilitado == false) ? "disabled" : ""%> name="senha" id="textBox" class="form-control"
+                            <input required type="password" <%= (campoSenhaHabilitado == false) ? "disabled" : ""%> name="senha" id="textBox" class="form-control"
                                    value=""/> 
                         </div>
                         <% if (!campoSenhaHabilitado) { %>
@@ -112,14 +112,14 @@
                         <br/>
                         <div class="form-group">
                             <label><b>Selecione o tipo de acesso:</b></label>
-                            <select name="idTipoUsuario" class="form-control" <%=disabilitado%>>
+                            <select required name="idTipoUsuario" class="form-control" style="<%=disabilitado%>">
+                                <<option> </option>
                                 <%
                                     for (TipoUsuario c : listaTipos) {
                                         String opc = "";
                                         if (c.getIdTipo() == u.getIdTipoUsuario())
                                             opc = "selected";
                                 %>
-
                                 <option <%=opc%> value="<%=c.getIdTipo()%>"><%= c.getTipo()%></option>
                                 <% }%>
                             </select>

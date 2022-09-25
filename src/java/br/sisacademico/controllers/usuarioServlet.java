@@ -28,12 +28,15 @@ public class usuarioServlet extends HttpServlet {
             if (tipoAcao.equals("delete")) {
                 UsuarioDAO uDAO = new UsuarioDAO();
                 int idUsuarioDeletado = Integer.parseInt(request.getParameter("idUsuario"));
-                //out.print("Vou deletar o usuário " + idUsuarioDeletado);
-                if (uDAO.deletarUsuario(idUsuarioDeletado)) {
-                    response.sendRedirect("gestaousuarios.jsp?acao=true");
-                } else {
-                    response.sendRedirect("gestaousuarios.jsp?acao=true");
+                if (uDAO.verificaUsuariocomAluno(idUsuarioDeletado) == false) {
+                    //out.print("Vou deletar o usuário " + idUsuarioDeletado);
+                    if (uDAO.deletarUsuario(idUsuarioDeletado)) {
+                        response.sendRedirect("gestaousuarios.jsp?acao=deletar");
+                    } else {
+                        response.sendRedirect("gestaousuarios.jsp?acao=false");
+                    }
                 }
+                response.sendRedirect("gestaousuarios.jsp?acao=erro");
             }
 
             if (tipoAcao.equals("insere")) {
@@ -79,14 +82,15 @@ public class usuarioServlet extends HttpServlet {
                 }
 
                 UsuarioDAO uDAO = new UsuarioDAO();
-                if (uDAO.verificaUsuario(email) == false) {
+                if (uDAO.verificaUsuario(email) == true) {
+                    response.sendRedirect("gestaousuarios.jsp?acao=email");
+                } else {
                     if (uDAO.atualizaUsuario(idUsuario, nome, email, senhaCripto, idTipoNovo, alteraSenha)) {
                         response.sendRedirect("gestaousuarios.jsp?acao=true");
                     } else {
                         response.sendRedirect("gestaousuarios.jsp?acao=false");
                     }
                 }
-                response.sendRedirect("gestaousuarios.jsp?acao=false");
             }
 
             if (tipoAcao.equals("alteraSenha")) {

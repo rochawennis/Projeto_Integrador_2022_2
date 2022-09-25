@@ -1,5 +1,6 @@
 package br.sisacademico.dao;
 
+import br.sisacademico.model.Aluno;
 import br.sisacademico.model.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,6 +68,28 @@ public class UsuarioDAO {
         stm.getConnection().close();
 
         return usuarios;
+    }
+
+    public boolean verificaUsuariocomAluno(int idUsuario) {
+        try {
+            String query = "SELECT IDUSUARIO FROM TB_ALUNO where IDUSUARIO = ?";
+            PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);
+
+            stm.setInt(1, idUsuario);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                if (idUsuario == (rs.getInt("IDUSUARIO"))) {
+                    stm.getConnection().close();
+                    return true;
+                }
+            }
+            stm.getConnection().close();
+        } catch (SQLException ex) {
+            return false;
+        }
+
+        return false;
+
     }
 
     public Usuario getUsuario(int idUsuario) {

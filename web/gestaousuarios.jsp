@@ -1,3 +1,5 @@
+<%@page import="br.sisacademico.dao.AlunoDao"%>
+<%@page import="br.sisacademico.model.Aluno"%>
 <%@page import="br.sisacademico.model.Usuario"%>
 <%@page import="br.sisacademico.dao.UsuarioDAO"%>
 <%@page import="java.util.ArrayList"%>
@@ -19,6 +21,8 @@
 
     int idUSuarioLogado = (Integer) session.getAttribute("idUsuario");
 
+    UsuarioDAO user = new UsuarioDAO();
+
 %>
 <!DOCTYPE html>
 <html>
@@ -29,20 +33,36 @@
     </head>
     <body>
         <jsp:include page="menu.jsp"/>
-
         <%            if (request.getParameter("acao") != null) {
-                if (Boolean.parseBoolean(request.getParameter("acao"))) {
+                if (request.getParameter("acao").equals("true")) {
         %>
         <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Cadastro realizado com sucesso!</div>
         <%
-        } else {
+            }
+            if (request.getParameter("acao").equals("false")) {
         %>
         <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">Usuário já possui cadastro! Cadastro não realizado!</div>
+        <%
+            }
+            if (request.getParameter("acao").equals("deletar")) {
+        %>
+        <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Cadastro excluído com sucesso!</div>
+
+        <%
+            }
+            if (request.getParameter("acao").equals("erro")) {
+        %>
+        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">Usuário com aluno cadastrado! Exclusão não realizada!</div>
+        <%
+            }
+            if (request.getParameter("acao").equals("email")) {
+        %>
+        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">E-mail já pertence a outro usuário! Alteração não realizada!</div>
+
         <%
                 }
             }
         %>
-
         <script src="../js/trataExclusao.js"></script>
         <script>
             $(function () {
@@ -87,10 +107,23 @@
                                 </span>
                             </td>
                             <%
-                            } else {
+                                }
+                                if (u.getIdUsuario() != idUSuarioLogado) {
+                                    if (user.verificaUsuariocomAluno(u.getIdUsuario()) == true) {
+                            %>
+                            <td>
+                                <span data-toggle="tooltip" title="Usuário com aluno cadastrado!">
+                                    <button class="btn btn-secondary btn-outline-secondary" disabled style="pointer-events: none;" type="button" disabled>Apagar</button>
+                                </span>
+                            </td>
+                            <%                                }
+                                if (user.verificaUsuariocomAluno(u.getIdUsuario()) != true) {
                             %>
                             <td><a href="usuarioServlet?tipoAcao=delete&idUsuario=<%=u.getIdUsuario()%>" class="btn btn-outline-danger" id="deleteUsuario">Apagar</a></td>
-                            <% } %>
+                            <%
+                                    }
+                                }
+                            %>
                         </tr>
                         <% }%>
                     </tbody>

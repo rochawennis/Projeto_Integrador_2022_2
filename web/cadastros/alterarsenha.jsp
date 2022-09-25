@@ -26,7 +26,7 @@
         <%            if (request.getParameter("acao") != null) {
                 if (Boolean.parseBoolean(request.getParameter("acao"))) {
         %>
-        <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Senha alterada!</div>
+        <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Senha alterada com sucesso!</div>
         <%
         } else {
         %>
@@ -41,17 +41,17 @@
 
                     <div class="form-group" style="padding-top: 25px;">
                         <label><b>Senha Atual:</b></label>
-                        <input type="password" name="senhaAntiga" class="form-control"/>
+                        <input required type="password" name="senhaAntiga" class="form-control"/>
                     </div>
 
                     <div class="form-group" style="padding-top: 25px;">
                         <label><b>Senha nova:</b></label>
-                        <input type="password" name="senhaNova_1" id="senha" class="form-control required"/>
+                        <input required type="password" name="senhaNova_1" id="senha" class="form-control required"/>
                     </div>
 
                     <div class="form-group" style="padding-top: 25px;">
                         <label><b>Repita a nova senha:</b></label>
-                        <input type="password" name="senhaNova_2" id="senha_confirm" class="form-control required"/>
+                        <input required="" type="password" name="senhaNova_2" id="senha_confirm" class="form-control required"/>
                     </div>
                     <input type="hidden" name="IdTipoUsuario" value="<%=session.getAttribute("IdTipoUsuario")%>"/>
                     <br/>
