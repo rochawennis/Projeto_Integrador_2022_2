@@ -135,12 +135,48 @@ public class UsuarioDAO {
                 }
             }
             stm.getConnection().close();
+            return false;
 
         } catch (SQLException ex) {
             return false;
         }
+    }
 
-        return false;
+    public boolean verificaEdicaoUsuario(String email, int idUsuario) {
+        try {
+            String query = "select idusuario, email FROM TB_USUARIO WHERE email = ? and idusuario = ?";
+            PreparedStatement stm = ConnectionFactory.getConnection()
+                    .prepareStatement(query);
+
+            String query1 = "select email FROM TB_USUARIO WHERE email = ?";
+            PreparedStatement stm1 = ConnectionFactory.getConnection()
+                    .prepareStatement(query1);
+
+            stm.setString(1, email);
+            stm.setInt(2, idUsuario);
+            stm1.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            ResultSet rs1 = stm1.executeQuery();
+            while (rs1.next()) {
+                while (rs.next()) {
+                    if (email.equals(rs.getString("email")) && idUsuario == (rs.getInt("idusuario"))) {
+                        stm.getConnection().close();
+                        return true;
+                    } else {
+                        stm.getConnection().close();
+                        return false;
+                    }
+                }
+                stm.getConnection().close();
+                return false;
+            }
+            stm.getConnection().close();
+            stm1.getConnection().close();
+            return true;
+
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public boolean deletarUsuario(int idUsuario) {

@@ -39,14 +39,19 @@
         <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Cadastro realizado com sucesso!</div>
         <%
             }
-            if (request.getParameter("acao").equals("false")) {
+            if (request.getParameter("acao").equals("edicaook")) {
         %>
-        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">Usuário já possui cadastro! Cadastro não realizado!</div>
+        <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Cadastro atualizado com sucesso!</div>
         <%
             }
             if (request.getParameter("acao").equals("deletar")) {
         %>
         <div class="text-center alert alert-success" style="margin: 0 auto !important; margin-top:  30px;">Cadastro excluído com sucesso!</div>
+        <%
+            }
+            if (request.getParameter("acao").equals("edicaoerro")) {
+        %>
+        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">E-mail já pertence a outro usuário! Edição não realizada!</div>
 
         <%
             }
@@ -57,7 +62,7 @@
             }
             if (request.getParameter("acao").equals("email")) {
         %>
-        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">E-mail já pertence a outro usuário! Alteração não realizada!</div>
+        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">E-mail já pertence a outro usuário! Cadastro não realizado!</div>
 
         <%
                 }
@@ -136,6 +141,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

@@ -58,7 +58,7 @@ public class usuarioServlet extends HttpServlet {
                         response.sendRedirect("gestaousuarios.jsp?acao=false");
                     }
                 }
-                response.sendRedirect("gestaousuarios.jsp?acao=false");
+                response.sendRedirect("gestaousuarios.jsp?acao=email");
             }
 
             if (tipoAcao.equals("edicao")) {
@@ -82,11 +82,11 @@ public class usuarioServlet extends HttpServlet {
                 }
 
                 UsuarioDAO uDAO = new UsuarioDAO();
-                if (uDAO.verificaUsuario(email) == true) {
-                    response.sendRedirect("gestaousuarios.jsp?acao=email");
+                if (uDAO.verificaEdicaoUsuario(email, idUsuario) == false) {
+                    response.sendRedirect("gestaousuarios.jsp?acao=edicaoerro");
                 } else {
                     if (uDAO.atualizaUsuario(idUsuario, nome, email, senhaCripto, idTipoNovo, alteraSenha)) {
-                        response.sendRedirect("gestaousuarios.jsp?acao=true");
+                        response.sendRedirect("gestaousuarios.jsp?acao=edicaook");
                     } else {
                         response.sendRedirect("gestaousuarios.jsp?acao=false");
                     }

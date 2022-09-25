@@ -94,7 +94,14 @@
                             <div class="input-group-text">
                                 <i class="bi bi-postcard-fill"></i>
                             </div>
-                            <input required type="text" id="Cpf" size="12" maxlength="14" placeholder="Ex: 000.000.000-00"  class="form-control"  OnKeyPress="formatar('###.###.###-##', this)"/>
+                            <input required type="text" id="CPF" size="12" maxlength="14" placeholder="Ex: 000.000.000-00"  class="form-control"  OnKeyPress="formatar('###.###.###-##', this)"/>
+                        </div>
+                        <label><b>Data de Nascimento:</b></label>
+                        <div class="input-group form-group">
+                            <div class="input-group-text">
+                                <i class="bi bi-calendar-fill"></i>
+                            </div>
+                            <input required type="date" id="nascimento" size="8" maxlength="10" placeholder="Ex: 01/01/2022"  class="form-control"  OnKeyPress="formatar('##/##/####', this)"/>
                         </div>
                         <label><b>Senha:</b></label>
                         <div class="input-group form-group">
