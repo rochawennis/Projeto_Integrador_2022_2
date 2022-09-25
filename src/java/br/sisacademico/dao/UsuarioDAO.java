@@ -1,7 +1,7 @@
 package br.sisacademico.dao;
 
-import br.sisacademico.model.Aluno;
 import br.sisacademico.model.Usuario;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +16,7 @@ public class UsuarioDAO {
         try {
             Usuario u = null;
 
-            String query = "SELECT idUsuario, nome_usuario, email, senha, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\" WHERE email = ? AND senha = ?";
+            String query = "SELECT idUsuario, nome_usuario, email, senha, \"tipo\", IdTipoUsuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\" WHERE email = ? AND senha = ? ORDER BY NOME_USUARIO ASC";
 
             PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);
 
@@ -24,7 +24,6 @@ public class UsuarioDAO {
             stm.setString(2, senha);
 
             ResultSet resultados = stm.executeQuery();
-
             while (resultados.next()) {
                 u = new Usuario(
                         resultados.getInt("idUsuario"),
@@ -50,7 +49,7 @@ public class UsuarioDAO {
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario, nome_usuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\"";
+        String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario, nome_usuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON idTipoUsuario = \"idTipo\" ORDER BY NOME_USUARIO ASC";
 
         ResultSet resultados = stm.executeQuery(select);
 
@@ -100,7 +99,7 @@ public class UsuarioDAO {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
 
-            String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario, nome_usuario FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON IDTIPOUSUARIO = \"idTipo\" WHERE idUsuario = " + idUsuario;
+            String select = "SELECT idUsuario, email, \"tipo\", IdTipoUsuario, nome_usuario, DATADENASCIMENTO, CPF FROM TB_USUARIO INNER JOIN \"tb_tipoUsuario\" ON IDTIPOUSUARIO = \"idTipo\" WHERE idUsuario = " + idUsuario;
 
             ResultSet resultados = stm.executeQuery(select);
 
@@ -110,6 +109,9 @@ public class UsuarioDAO {
                 u.setTipo(resultados.getString("tipo"));
                 u.setIdTipoUsuario(resultados.getInt("IdTipoUsuario"));
                 u.setNome(resultados.getString("nome_usuario"));
+                u.setNascimento(resultados.getDate("DATADENASCIMENTO"));
+                u.setCPF(resultados.getString("CPF"));
+
             }
 
             stm.getConnection().close();
@@ -198,9 +200,10 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean cadastrarUsuario(String email, String senha, int tipo, String nome) {
+    public boolean cadastrarUsuario(String email, String senha, int tipo, String nome, Date nascimento, String CPF) {
         try {
-            String query = "INSERT INTO TB_USUARIO (email, senha, idTipoUsuario, nome_usuario) VALUES(?, ?, ?, ?)";
+            String query = "INSERT INTO TB_USUARIO (email, senha, idTipoUsuario, nome_usuario, datadenascimento, CPF)"
+                    + " VALUES(?, ?, ?, ?, ?, ?)";
 
             PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);
 
@@ -208,7 +211,8 @@ public class UsuarioDAO {
             stm.setString(2, senha);
             stm.setInt(3, tipo);
             stm.setString(4, nome);
-
+            stm.setDate(5, nascimento);
+            stm.setString(6, CPF);
             stm.execute();
 
             stm.getConnection().close();
@@ -220,10 +224,32 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean atualizaUsuario(int idUsuario, String nome, String emailNovo, String senhaNova, int tipoNovo, boolean alteraSenha) {
+    public boolean resetSenhaUsuario(int idUsuario, String nome, String emailNovo, String senhaNova, int tipoNovo, boolean alteraSenha) {
+        try {
+            String query = "UPDATE TB_USUARIO SET email = ?, senha = ?, idTipoUsuario = ?, nome_usuario = ? WHERE idUsuario = ?";
+
+            PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);
+            if (alteraSenha) {
+                stm.setString(1, emailNovo);
+                stm.setString(2, senhaNova);
+                stm.setInt(3, tipoNovo);
+                stm.setString(4, nome);
+                stm.setInt(5, idUsuario);
+            }
+            stm.execute();
+            stm.getConnection().close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean atualizaUsuario(int idUsuario, String nome, String emailNovo, String senhaNova, int tipoNovo, boolean alteraSenha, Date nascimento, String CPF) {
         try {
             String query = "";
             PreparedStatement stm;
+
             if (alteraSenha) {
                 query = "UPDATE TB_USUARIO SET email = ?, senha = ?, idTipoUsuario = ?, nome_usuario = ? WHERE idUsuario = ?";
                 stm = ConnectionFactory.getConnection().prepareStatement(query);
@@ -234,18 +260,19 @@ public class UsuarioDAO {
                 stm.setString(4, nome);
                 stm.setInt(5, idUsuario);
             } else {
-                query = "UPDATE TB_USUARIO SET email = ?, idTipoUsuario = ?, nome_usuario = ? WHERE idUsuario = ?";
+                query = "UPDATE TB_USUARIO SET email = ?, senha = ?, idTipoUsuario = ?, nome_usuario = ?, DATADENASCIMENTO = ?, CPF = ? WHERE idUsuario = ?";
                 stm = ConnectionFactory.getConnection().prepareStatement(query);
-
                 stm.setString(1, emailNovo);
-                stm.setInt(2, tipoNovo);
-                stm.setString(3, nome);
-                stm.setInt(4, idUsuario);
+                stm.setString(2, senhaNova);
+                stm.setInt(3, tipoNovo);
+                stm.setString(4, nome);
+                stm.setDate(5, nascimento);
+                stm.setString(6, CPF);
+                stm.setInt(7, idUsuario);
             }
             stm.execute();
             stm.getConnection().close();
             return true;
-
         } catch (Exception e) {
             e.printStackTrace();
             return false;

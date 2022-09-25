@@ -29,6 +29,8 @@
     u.setNome("");
     u.setEmail("");
     u.setTipo("");
+    u.setCPF("");
+    u.getNascimento();
     String disabilitado = "";
     boolean campoSenhaHabilitado = true;
     if (request.getParameter("idUsuario") != null) {
@@ -85,7 +87,12 @@
                             <div class="input-group-text">
                                 <i class="bi bi-envelope-fill"></i>
                             </div>
-                            <input required type="email" name="email" class="form-control"
+                            <input title="Insira e-mail no formato email@email.com"
+                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                                   required 
+                                   type="email" 
+                                   name="email" 
+                                   class="form-control"
                                    placeholder="E-mail do usuário"
                                    value="<%=u.getEmail()%>"/>
                         </div>
@@ -94,21 +101,36 @@
                             <div class="input-group-text">
                                 <i class="bi bi-postcard-fill"></i>
                             </div>
-                            <input required type="text" id="CPF" size="12" maxlength="14" placeholder="Ex: 000.000.000-00"  class="form-control"  OnKeyPress="formatar('###.###.###-##', this)"/>
+                            <input required 
+                                   type="text" 
+                                   name="CPF"
+                                   id="CPF" size="12" 
+                                   maxlength="14" placeholder="Ex: 000.000.000-00"  
+                                   class="form-control"
+                                   OnKeyPress="formatar('###.###.###-##', this)"
+                                   value="<%=u.getCPF()%>"
+                                   />
                         </div>
                         <label><b>Data de Nascimento:</b></label>
                         <div class="input-group form-group">
                             <div class="input-group-text">
                                 <i class="bi bi-calendar-fill"></i>
                             </div>
-                            <input required type="date" id="nascimento" size="8" maxlength="10" placeholder="Ex: 01/01/2022"  class="form-control"  OnKeyPress="formatar('##/##/####', this)"/>
+                            <input value="<%=u.getNascimento()%>" required type="date" name="nascimento"
+                                   id="nascimento" size="8"
+                                   maxlength="10" placeholder="Ex: 01/01/2022"  
+                                   class="form-control"  OnKeyPress="formatar('##/##/####', this)"/>
                         </div>
                         <label><b>Senha:</b></label>
                         <div class="input-group form-group">
                             <div class="input-group-text">
                                 <i class="bi bi-lock-fill"></i>
                             </div>
-                            <input required type="password" <%= (campoSenhaHabilitado == false) ? "disabled" : ""%> name="senha" id="textBox" class="form-control"
+                            <input pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W+)(?=^.{8,50}$).*$"
+                                   title="Mínimo de 8 caracteres contendo: 1 letra maiúscula, 1 letra minúscula, 1 numeral e 1 caracter especial" 
+                                   required 
+                                   type="password" <%= (campoSenhaHabilitado == false) ? "disabled" : ""%> 
+                                   name="senha" id="textBox" class="form-control"
                                    value=""/> 
                         </div>
                         <% if (!campoSenhaHabilitado) { %>

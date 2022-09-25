@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,10 +42,11 @@ public class usuarioServlet extends HttpServlet {
 
             if (tipoAcao.equals("insere")) {
                 UsuarioDAO uDAO = new UsuarioDAO();
-
                 String email = request.getParameter("email");
                 String senha = request.getParameter("senha");
                 String nome = request.getParameter("nome");
+                Date nascimento = Date.valueOf(request.getParameter("nascimento"));
+                String CPF = request.getParameter("CPF");
 
                 //criptografia da senha 
                 MessageDigest m = MessageDigest.getInstance("SHA-256");
@@ -52,7 +54,7 @@ public class usuarioServlet extends HttpServlet {
 
                 int idTipo = Integer.parseInt(request.getParameter("idTipoUsuario"));
                 if (uDAO.verificaUsuario(email) == false) {
-                    if (uDAO.cadastrarUsuario(email, new BigInteger(1, m.digest()).toString(16), idTipo, nome)) {
+                    if (uDAO.cadastrarUsuario(email, new BigInteger(1, m.digest()).toString(16), idTipo, nome, nascimento, CPF)) {
                         response.sendRedirect("gestaousuarios.jsp?acao=true");
                     } else {
                         response.sendRedirect("gestaousuarios.jsp?acao=false");
@@ -65,6 +67,8 @@ public class usuarioServlet extends HttpServlet {
                 String nome = request.getParameter("nome");
                 String email = request.getParameter("email");
                 String senha = request.getParameter("senha");
+                Date nascimento = Date.valueOf(request.getParameter("nascimento"));
+                String CPF = request.getParameter("CPF");
                 String checkSenha = request.getParameter("alteraSenha");
                 int idTipoNovo = Integer.parseInt(request.getParameter("idTipoUsuario"));
                 int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
@@ -85,10 +89,10 @@ public class usuarioServlet extends HttpServlet {
                 if (uDAO.verificaEdicaoUsuario(email, idUsuario) == false) {
                     response.sendRedirect("gestaousuarios.jsp?acao=edicaoerro");
                 } else {
-                    if (uDAO.atualizaUsuario(idUsuario, nome, email, senhaCripto, idTipoNovo, alteraSenha)) {
+                    if (uDAO.atualizaUsuario(idUsuario, nome, email, senhaCripto, idTipoNovo, alteraSenha, nascimento, CPF)) {
                         response.sendRedirect("gestaousuarios.jsp?acao=edicaook");
                     } else {
-                        response.sendRedirect("gestaousuarios.jsp?acao=false");
+                        response.sendRedirect("gestaousuarios.jsp?acao=edicaoerro");
                     }
                 }
             }
@@ -113,13 +117,10 @@ public class usuarioServlet extends HttpServlet {
 
                 UsuarioDAO uDAO = new UsuarioDAO();
                 if (uDAO.autentica(email, senhaAntigaCripto) != null) {
-                    //a senha antiga digitada está ok. Pode começar o processo 
-                    //de atualização da senha
                     int idUsuario = (Integer) session.getAttribute("idUsuario");
-                    if (uDAO.atualizaUsuario(idUsuario, nome, email, senhaNovaCripto, tipo1, true)) {
+                    if (uDAO.resetSenhaUsuario(idUsuario, nome, email, senhaNovaCripto, tipo1, true)) {
                         response.sendRedirect("cadastros/alterarsenha.jsp?acao=true");
                     } else {
-                        //precisa corrigir a memnsgem neste caso. Não é senhna anterior incorreta
                         response.sendRedirect("cadastros/alterarsenha.jsp?acao=false");
                     }
 

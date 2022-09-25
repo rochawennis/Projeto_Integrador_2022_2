@@ -45,14 +45,26 @@
                                         <div class="input-group-text"><i class="bi bi-person-fill">
                                             </i>
                                         </div>
-                                        <input type="email" name="email" class="form-control" placeholder="E-mail">
+                                        <input required
+                                               title="Insira e-mail no formato email@email.com" 
+                                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                                               type="email" 
+                                               name="email" 
+                                               class="form-control" 
+                                               placeholder="E-mail">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Senha<span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
-                                        <input type="password"  name="senha" class="form-control" placeholder="Senha">
+                                        <input 
+                                            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W+)(?=^.{8,50}$).*$"
+                                            title="Mínimo de 8 caracteres contendo: 1 letra maiúscula, 1 letra minúscula, 1 numeral e 1 caracter especial" 
+                                            required type="password"  
+                                            name="senha" 
+                                            class="form-control" 
+                                            placeholder="Senha">
                                     </div>
                                 </div>
                                 <br/>

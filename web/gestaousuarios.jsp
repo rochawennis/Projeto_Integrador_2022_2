@@ -51,7 +51,7 @@
             }
             if (request.getParameter("acao").equals("edicaoerro")) {
         %>
-        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">E-mail já pertence a outro usuário! Edição não realizada!</div>
+        <div class="text-center alert alert-danger" style="margin: 0 auto !important; margin-top:  30px;">Algum(ns) do(s) dado(s) passado(s) já pertence(m) a outro usuário! Edição não realizada!</div>
 
         <%
             }

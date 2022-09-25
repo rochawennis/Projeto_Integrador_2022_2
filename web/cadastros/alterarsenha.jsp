@@ -46,12 +46,17 @@
 
                     <div class="form-group" style="padding-top: 25px;">
                         <label><b>Senha nova:</b></label>
-                        <input required type="password" name="senhaNova_1" id="senha" class="form-control required"/>
+                        <input 
+                            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W+)(?=^.{8,50}$).*$"
+                            title="Mínimo de 8 caracteres contendo: 1 letra maiúscula, 1 letra minúscula, 1 numeral e 1 caracter especial" 
+                            required type="password" name="senhaNova_1" id="senha" class="form-control required"/>
                     </div>
 
                     <div class="form-group" style="padding-top: 25px;">
                         <label><b>Repita a nova senha:</b></label>
-                        <input required="" type="password" name="senhaNova_2" id="senha_confirm" class="form-control required"/>
+                        <input pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W+)(?=^.{8,50}$).*$"
+                               title="Mínimo de 8 caracteres contendo: 1 letra maiúscula, 1 letra minúscula, 1 numeral e 1 caracter especial" 
+                               required="" type="password" name="senhaNova_2" id="senha_confirm" class="form-control required"/>
                     </div>
                     <input type="hidden" name="IdTipoUsuario" value="<%=session.getAttribute("IdTipoUsuario")%>"/>
                     <br/>

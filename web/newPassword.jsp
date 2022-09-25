@@ -49,16 +49,22 @@
                                     <!-- User Name Input -->
                                     <div class="form-group row justify-content-center px-3">
                                         <div class="col-9 px-0">
-                                            <input type="text" name="password" placeholder="&#xf084; &nbsp; Nova senha"
-                                                   class="form-control border-info placeicon">
+                                            <input 
+                                                pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W+)(?=^.{8,50}$).*$"
+                                                title="Mínimo de 8 caracteres contendo: 1 letra maiúscula, 1 letra minúscula, 1 numeral e 1 caracter especial" 
+                                                type="text" name="password" placeholder="&#xf084; &nbsp; Nova senha"
+                                                class="form-control border-info placeicon">
                                         </div>
                                     </div>
                                     <!-- Password Input -->
                                     <div class="form-group row justify-content-center px-3">
                                         <div class="col-9 px-0">
-                                            <input type="password" name="confPassword"
-                                                   placeholder="&#xf084; &nbsp; Repita a nova senha"
-                                                   class="form-control border-info placeicon">
+                                            <input 
+                                                pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W+)(?=^.{8,50}$).*$"
+                                                title="Mínimo de 8 caracteres contendo: 1 letra maiúscula, 1 letra minúscula, 1 numeral e 1 caracter especial" 
+                                                type="password" name="confPassword"
+                                                placeholder="&#xf084; &nbsp; Repita a nova senha"
+                                                class="form-control border-info placeicon">
                                         </div>
                                     </div>
 
