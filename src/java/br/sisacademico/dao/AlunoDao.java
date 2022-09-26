@@ -86,7 +86,7 @@ public class AlunoDao {
         }
     }
 
-    public boolean verificaAluno(String nomeAluno) {
+    public boolean verificaCadastroAluno(String nomeAluno) {
         try {
             String query = "select NOME FROM TB_ALUNO WHERE NOME = ?";
             PreparedStatement stm = ConnectionFactory.getConnection()
@@ -105,6 +105,44 @@ public class AlunoDao {
         }
         return false;
 
+    }
+
+    public boolean verificaAluno(String nomeAluno, int idAluno) {
+        try {
+            String query = "select NOME FROM TB_ALUNO WHERE NOME = ?";
+            PreparedStatement stm = ConnectionFactory.getConnection()
+                    .prepareStatement(query);
+
+            String query1 = "select ID_ALUNO, NOME FROM TB_ALUNO WHERE NOME = ? and ID_ALUNO = ?";
+            PreparedStatement stm1 = ConnectionFactory.getConnection()
+                    .prepareStatement(query1);
+
+            stm.setString(1, nomeAluno);
+            stm1.setString(1, nomeAluno);
+            stm1.setInt(2, idAluno);
+            ResultSet rs = stm.executeQuery();
+            ResultSet rs1 = stm1.executeQuery();
+
+            while (rs1.next()) {
+                while (rs.next()) {
+                    if (nomeAluno.equals(rs1.getString("NOME")) && idAluno == (rs1.getInt("ID_ALUNO"))) {
+                        stm1.getConnection().close();
+                        return true;
+                    } else {
+                        stm1.getConnection().close();
+                        return false;
+                    }
+                }
+                stm.getConnection().close();
+                return false;
+            }
+            stm.getConnection().close();
+            stm1.getConnection().close();
+            return true;
+
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public boolean cadastraAluno(Aluno aluno) {

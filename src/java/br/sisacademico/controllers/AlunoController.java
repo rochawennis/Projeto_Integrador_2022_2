@@ -86,7 +86,7 @@ public class AlunoController extends HttpServlet {
                     a.setNomeAluno(request.getParameter("nomeAluno"));
                     a.setCurso(new Curso(Integer.parseInt(request.getParameter("idCurso")), null, null));
                     a.setIdUsuario(Integer.parseInt(request.getParameter("idUsuario")));
-                    if (aDAO.verificaAluno(a.getNomeAluno()) == false) {
+                    if (aDAO.verificaCadastroAluno(a.getNomeAluno()) == false) {
                         if (aDAO.cadastraAluno(a)) {
                             //response.sendRedirect("./relatorios/loader.jsp?pagina=aluno");
                             response.sendRedirect("./cadastros/aluno.jsp?ok");
@@ -100,9 +100,13 @@ public class AlunoController extends HttpServlet {
                     a.setIdAluno(Integer.parseInt(request.getParameter("idAluno")));
                     a.setNomeAluno(request.getParameter("nomeAluno"));
                     a.setCurso(new Curso(Integer.parseInt(request.getParameter("idCurso")), null, null));
-                    if (aDAO.verificaAluno(a.getNomeAluno()) == false) {
+                    if (aDAO.verificaAluno(a.getNomeAluno(), a.getIdAluno()) == false) {
+                        response.sendRedirect("./cadastros/aluno.jsp?erro");
+                        break;
+                    } else {
                         if (aDAO.atualizaAluno(a)) {
                             response.sendRedirect("./relatorios/loader.jsp?pagina=aluno");
+                            break;
                         }
                     }
                     response.sendRedirect("./cadastros/aluno.jsp?erro");
