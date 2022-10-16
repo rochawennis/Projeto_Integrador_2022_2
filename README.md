@@ -29,6 +29,20 @@
 
 <h1 align="center">SisAcadêmico</h1>
 
+O projeto trata-se de um cadastro de alunos e seus respectivos cursos, além do cadastros os usuários que irão manusear o sistema.
+
+O escopo traz a seguinte funcionalidades:
+
++ Login e senha com criptografia SHA-256;
++ Reset de senha;
++ Cadastros de alunos e associação ao respectivo curso;
++ Edição dos Alunos;
++ Cadastro de cursos;
++ Edição dos Cursos;
++ Filtro de Curso por aluno;
++ Gestão de Usuários (Cadastro, edição e exclusão);
++ Limitação de visualização de páginas por perfil do usuário.
+
 <h1 align="center">Index</h1>
 <img src="https://user-images.githubusercontent.com/47645762/192078520-8f0a6195-0ea1-4452-9d7f-9cd89bbbc4e1.png" width="100%"></img> 
 
